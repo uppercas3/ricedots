@@ -1,0 +1,48 @@
+#! /bin/sh
+#To source shell files use ."path" and make sure that the file has x permission.
+
+#Init
+sxhkd & 
+. ${HOME}/.config/polybar/launch.sh &
+xset +fp /home/nomad/.fonts & xset fp rehash &
+python3 ${HOME}/bin/color_change.py &
+sh ${HOME}/.fehbg &
+sh ${HOME}/.bashrc &
+
+#Declare variables
+gap=12
+
+#Create desktops
+bspc monitor -d I II III IV V VI
+
+#This creates negative padding equal to window gap so that gaps are shown only between windows and not on desktop edges.
+bspc config window_gap $gap;
+bspc config top_padding 0
+bspc config left_padding 0
+bspc config right_padding 0
+bspc config bottom_padding 0
+
+#Borders
+. "${HOME}/.cache/wal/colors.sh"
+bspc config border_width 3
+bspc config normal_border_color "$color2"
+bspc config active_border_color "$color2"
+bspc config focused_border_color "$color7"
+
+#Monocle settings
+bspc config borderless_monocle  true
+bspc config gapless_monocle     true
+
+#Various settings
+bspc config split_ratio         0.5
+bspc config click_to_focus		any
+
+#Program rules
+bspc rule -a conky floating=on border=off desktop=^1
+bspc rule -a Firefox desktop=^1
+bspc rule -a Sublime Text 3 desktop=^2
+
+bspc rule -a Gimp follow=on floating=on
+bspc rule -a mplayer2 floating=on
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off
